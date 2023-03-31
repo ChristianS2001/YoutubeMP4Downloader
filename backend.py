@@ -28,7 +28,7 @@ def get_audio(url, save_location, in_progress, on_complete, handle_error):
         print(filename)
         print(output_path)
         download = YouTube(url, on_progress_callback=in_progress, on_complete_callback=on_complete)
-        stream = download.streams.filter(only_audio=True).get_audio_only #HERE IS THE SPOT TO CHANGE FOR BACKEND ADJUSTMENT
+        stream = download.streams.filter(only_audio=True).first()
         stream.download(filename=filename, output_path=output_path)
         return  
     except:

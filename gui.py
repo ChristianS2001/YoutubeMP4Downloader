@@ -1,3 +1,4 @@
+import os
 import flet as ft
 
 
@@ -9,13 +10,18 @@ run_backend_audio = None
 def main(page: ft.Page):
     page.title = "Youtube MP3 and MP4 Converter"
     page.vertical_alignment = "center"
-    page.window_height = 850
-    page.window_width = 625
+    page.window_height = 1000
+    page.window_width = 1000
 
 
-    #TODO adjust this for mp3 later maybe???
+    #TODO
     def pick_file_result(e: ft.FilePickerResultEvent):
-        selected_path.value = pick_file_dialog.result.path + ".mp4"
+        if(radioHead.value == "mp4"):
+            print("we are in the mp4 scope")
+            selected_path.value = pick_file_dialog.result.path + ".mp4"
+        else:
+            print("we are in the mp3 scope")
+            selected_path.value = pick_file_dialog.result.path + ".mp3"
         page.update()
 
 
@@ -23,9 +29,13 @@ def main(page: ft.Page):
         if not url_input.value:
             url_input.error_text = "Please enter URL"
             page.update()
-        else:
+        if(radioHead.value == "mp4"):
             url_input.error_text = None
             run_backend_video(url_input.value, selected_path.value, in_progress, on_complete, handle_error)
+            page.update()
+        else:
+            url_input.error_text = None
+            run_backend_audio(url_input.value, selected_path.value, in_progress, on_complete, handle_error)
             page.update()
 
     def in_progress(*args):
@@ -64,6 +74,7 @@ def main(page: ft.Page):
         ft.Radio(value="mp3", label="MP3"),
         ft.Radio(value="mp4", label="MP4")]))
     
+    radioHead.value = "mp3" #this is to set the defualt value to mp3 for when user goes to download a video
 
     download_button = ft.TextButton("Download", on_click=handle_submit)
     
@@ -106,6 +117,10 @@ def main(page: ft.Page):
             spacing=50
         )
     )
+
+def whatOption(option):
+    fileType = option
+    return fileType #I hope this does not crash the GUI
 
 def run_gui():
     ft.app(target=main)

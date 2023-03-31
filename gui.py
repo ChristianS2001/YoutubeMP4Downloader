@@ -14,7 +14,6 @@ def main(page: ft.Page):
     page.window_width = 1000
 
 
-    #TODO
     def pick_file_result(e: ft.FilePickerResultEvent):
         if(radioHead.value == "mp4"):
             print("we are in the mp4 scope")
